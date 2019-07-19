@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package my_package;
+
+service MyPackage {
+    rpc Store (StoreRequest) returns (StoreResponse) {
+    }
+    rpc Find (FindRequest) returns (stream FindResponse) {
+    }
+}
+
+message StoreRequest {
+    Document document = 1;
+}
+
+message StoreResponse {
+}
+
+message FindRequest {
+}
+
+message FindResponse {
+    Document document = 1;
+    string error = 2;
+}
+
+message Document {
+    enum Type {
+        IMAGE = 0;
+        TEXT = 1;
+        VIDEO = 2;
+    }
+
+    string title = 1;
+    Type type = 2;
+    string description = 3;
+}
