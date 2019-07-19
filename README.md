@@ -40,7 +40,7 @@ The skeleton app provides two commands/binaries:
 go run ./cmd/server
 ```
 
-#### Run job
+### Run job
 ```
 go run ./cmd/job
 ```
