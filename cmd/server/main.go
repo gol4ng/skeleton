@@ -26,6 +26,7 @@ func main() {
 	grpcServer := grpcSrv.NewServer(container)
 
 	// signal handler
+	idleConnsClosed := make(chan struct{})
 	defer signal.Subscribe(func(signal os.Signal) {
 		println(signal.String(), "signal received. stopping...")
 		if err := httpServer.Stop(); err != nil {
@@ -37,6 +38,7 @@ func main() {
 		if err := container.Unload(); err != nil {
 			println(err)
 		}
+		close(idleConnsClosed)
 	}, os.Interrupt, os.Kill, syscall.SIGTERM)()
 
 	// starting servers
@@ -49,4 +51,6 @@ func main() {
 	if err := grpcServer.Start(); err != nil && err != grpc.ErrServerStopped {
 		panic(err)
 	}
+
+	<-idleConnsClosed
 }
