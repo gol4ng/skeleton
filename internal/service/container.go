@@ -3,6 +3,8 @@ package service
 import (
 	"github.com/olivere/elastic"
 
+	"github.com/gol4ng/httpware/metrics"
+
 	"github.com/gol4ng/skeleton/config"
 	esRepo "github.com/gol4ng/skeleton/internal/repository/elastic"
 	conf "github.com/gol4ng/skeleton/pkg/config"
@@ -18,6 +20,8 @@ const Version = "0.0.1"
 // complex service can have they're own package
 type Container struct {
 	Cfg *config.Base
+
+	httpMetricsRecorder metrics.Recorder
 
 	esClient           *elastic.Client
 	indexManager       *esRepo.IndexManager

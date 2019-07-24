@@ -1,13 +1,13 @@
 package middleware
 
 import (
-	"github.com/gorilla/handlers"
-	"github.com/gorilla/mux"
 	"net/http"
 	"os"
+
+	"github.com/gorilla/handlers"
 )
 
-func Logging() mux.MiddlewareFunc {
+func Logging() func(http.Handler) http.Handler {
 	return func(handler http.Handler) http.Handler {
 		return handlers.LoggingHandler(os.Stdout, handler)
 	}
