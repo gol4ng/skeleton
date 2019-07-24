@@ -53,6 +53,7 @@ func (s *Server) Start() error {
 	return nil
 }
 
+//@todo create serverInterface
 func (s *Server) Stop() error {
 	s.server.GracefulStop()
 	return nil
@@ -69,7 +70,7 @@ func (s *Server) Find(req *protos.FindRequest, findSrv protos.MyPackage_FindServ
 	if err != nil {
 		return err
 	}
-	if documents == nil || len(documents) == 0 {
+	if len(documents) == 0 {
 		return findSrv.Send(nil)
 	}
 	for _, document := range documents {
