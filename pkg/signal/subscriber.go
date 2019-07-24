@@ -36,7 +36,7 @@ func Subscribe(callback func(os.Signal), signals ...os.Signal) func() {
 				close(signalChan)
 				return
 			case sig := <-signalChan:
-				callback(sig)
+				go callback(sig)
 			}
 		}
 	}()

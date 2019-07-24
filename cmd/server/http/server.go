@@ -26,13 +26,13 @@ func (s *Server) Start() error {
 	return nil
 }
 
+//@todo create serverInterface
 func (s *Server) Stop() error {
-	if s.httpServer != nil {
-		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-		defer cancel()
-		return s.httpServer.Shutdown(ctx)
-	}
-	return nil
+	//@todo make timeout value configurable
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	err := s.httpServer.Shutdown(ctx)
+	return err
 }
 
 func NewServer(container *service.Container) *Server {

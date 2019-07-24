@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"os"
 	"syscall"
@@ -27,8 +28,17 @@ func main() {
 
 	// signal handler
 	idleConnsClosed := make(chan struct{})
+	stopping := false
 	defer signal.Subscribe(func(signal os.Signal) {
-		println(signal.String(), "signal received. stopping...")
+		// kill application if os.kill signal is received or if user interrupt graceful shutdown (i.e hit ctr+c two times)
+		if stopping || signal == os.Kill {
+			log.Println("killing application")
+			os.Exit(0)
+		}
+		// graceful shutdow
+		stopping = true
+		log.Println(signal.String(), "signal received : gracefully stopping application")
+		println("Press `ctrl+c` again to kill application.")
 		if err := httpServer.Stop(); err != nil {
 			println(err)
 		}
