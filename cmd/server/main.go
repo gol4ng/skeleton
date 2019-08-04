@@ -8,11 +8,12 @@ import (
 
 	"google.golang.org/grpc"
 
+	"github.com/gol4ng/signal"
+
 	grpcSrv "github.com/gol4ng/skeleton/cmd/server/grpc"
 	httpSrv "github.com/gol4ng/skeleton/cmd/server/http"
 	"github.com/gol4ng/skeleton/config"
 	"github.com/gol4ng/skeleton/internal/service"
-	"github.com/gol4ng/skeleton/pkg/signal"
 )
 
 func main() {
