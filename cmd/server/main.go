@@ -27,19 +27,12 @@ func main() {
 	httpServer := httpSrv.NewServer(container)
 	grpcServer := grpcSrv.NewServer(container)
 
-	// signal handler
 	idleConnsClosed := make(chan struct{})
-	stopping := false
-	defer signal.Subscribe(func(signal os.Signal) {
-		// kill application if os.kill signal is received or if user interrupt graceful shutdown (i.e hit ctr+c two times)
-		if stopping || signal == os.Kill {
-			log.Println("killing application")
-			os.Exit(0)
-		}
-		// graceful shutdow
-		stopping = true
+
+	// gracefully stop app on interrupt signal
+	// kill app when receiving kill signal or 2x interrupt signal (ex: 2x ctr+c)
+	defer signal.SubscribeWithKiller(func(signal os.Signal) {
 		log.Println(signal.String(), "signal received : gracefully stopping application")
-		println("Press `ctrl+c` again to kill application.")
 		if err := httpServer.Stop(); err != nil {
 			println(err)
 		}
@@ -50,7 +43,7 @@ func main() {
 			println(err)
 		}
 		close(idleConnsClosed)
-	}, os.Interrupt, os.Kill, syscall.SIGTERM)()
+	}, os.Interrupt, syscall.SIGTERM, syscall.SIGSTOP)()
 
 	// starting servers
 	go func() {
