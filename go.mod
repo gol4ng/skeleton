@@ -2,8 +2,8 @@ module github.com/gol4ng/skeleton
 
 require (
 	github.com/fortytw2/leaktest v1.3.0 // indirect
-	github.com/gol4ng/signal v1.1.0
 	github.com/gol4ng/httpware v0.0.0-20190724082439-5999a32c7adb
+	github.com/gol4ng/signal v1.1.0
 	github.com/golang/protobuf v1.3.1
 	github.com/gorilla/handlers v1.4.0
 	github.com/gorilla/mux v1.7.3
