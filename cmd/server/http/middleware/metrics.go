@@ -7,6 +7,7 @@ import (
 	"github.com/gol4ng/httpware/middleware"
 )
 
+// Configure metrics middleware
 func Metrics(recorder metrics.Recorder) func(http.Handler) http.Handler {
 	recorderConfig := metrics.NewConfig(recorder)
 	recorderConfig.HandlerNameExtractor = func(req *http.Request) string {

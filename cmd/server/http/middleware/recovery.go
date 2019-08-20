@@ -14,10 +14,10 @@ func (r *RecoveryHandlerLogger) Println(a ...interface{}) {
 	fmt.Println(a...)
 }
 
+// Configure recovery middleware
 func Recovery(debug bool) func(http.Handler) http.Handler {
 	return handlers.RecoveryHandler(
-		handlers.PrintRecoveryStack(false),
-		//handlers.RecoveryLogger(&RecoveryHandlerLogger{}),
 		handlers.PrintRecoveryStack(debug),
+		//handlers.RecoveryLogger(&RecoveryHandlerLogger{}),
 	)
 }

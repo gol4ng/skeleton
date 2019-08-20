@@ -17,7 +17,7 @@ import (
 )
 
 func main() {
-	// example loading config
+	// loading config
 	cfg := config.NewServer()
 
 	// creating your service container

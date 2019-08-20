@@ -58,8 +58,8 @@ func getHttpHandler(container *service.Container) http.Handler {
 	r := mux.NewRouter()
 	r.Use(
 		middleware.Logging(),
-		middleware.Recovery(container.Cfg.Debug),
 		middleware.Metrics(container.GetHttpRecorder()),
+		middleware.Recovery(container.Cfg.Debug),
 	)
 
 	r.Path("/documents/create").Methods("GET").HandlerFunc(handler.Create(container.GetDocumentRepository()))

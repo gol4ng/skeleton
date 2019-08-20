@@ -1,4 +1,4 @@
-package metrics
+package tripperware
 
 import (
 	"net/http"
@@ -8,6 +8,7 @@ import (
 	"github.com/gol4ng/httpware/tripperware"
 )
 
+// Configure metrics tripperware
 func Metrics(name string, recorder metrics.Recorder) httpware.Tripperware {
 	recorderConfig := metrics.NewConfig(recorder)
 	recorderConfig.HandlerNameExtractor = func(req *http.Request) string {
