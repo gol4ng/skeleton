@@ -11,7 +11,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/gol4ng/skeleton/cmd/server/http/handler"
-	middleware2 "github.com/gol4ng/skeleton/cmd/server/http/middleware"
+	"github.com/gol4ng/skeleton/cmd/server/http/middleware"
 	"github.com/gol4ng/skeleton/internal/service"
 )
 
@@ -57,9 +57,9 @@ func Readiness(response http.ResponseWriter, _ *http.Request) {
 func getHttpHandler(container *service.Container) http.Handler {
 	r := mux.NewRouter()
 	r.Use(
-		middleware2.Logging(),
-		middleware2.Recovery(container.Cfg.Debug),
-		middleware2.Prometheus(),
+		middleware.Logging(),
+		middleware.Metrics(container.GetHttpRecorder()),
+		middleware.Recovery(container.Cfg.Debug),
 	)
 
 	r.Path("/documents/create").Methods("GET").HandlerFunc(handler.Create(container.GetDocumentRepository()))

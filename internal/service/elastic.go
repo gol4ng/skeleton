@@ -6,7 +6,9 @@ import (
 
 	"github.com/olivere/elastic"
 
+	"github.com/gol4ng/httpware"
 	esRepo "github.com/gol4ng/skeleton/internal/repository/elastic"
+	"github.com/gol4ng/skeleton/internal/tripperware"
 	"github.com/gol4ng/skeleton/pkg/my_package/repository"
 )
 
@@ -14,7 +16,7 @@ type loggerWrapper struct {
 }
 
 func (l loggerWrapper) Printf(format string, v ...interface{}) {
-	fmt.Printf(format, v...)
+	fmt.Printf(format+"\n", v...)
 }
 
 func (container *Container) GetEsClient() *elastic.Client {
@@ -24,15 +26,10 @@ func (container *Container) GetEsClient() *elastic.Client {
 			elastic.SetURL(container.Cfg.ElasticURL),
 			//elastic.SetRetrier(elastic.NewBackoffRetrier(elastic.NewExponentialBackoff(10*time.Millisecond, 1*time.Second))),
 			elastic.SetBasicAuth(container.Cfg.ElasticUsername, container.Cfg.ElasticPassword),
-			elastic.SetHttpClient(&http.Client{
-				Transport: &http.Transport{
-					MaxIdleConnsPerHost: container.Cfg.ElasticMaxIdleConns,
-				},
-				Timeout: container.Cfg.ElasticTimeout,
-			}),
-			//elastic.SetErrorLog(loggerWrapper{}),
-			//elastic.SetInfoLog(loggerWrapper{}),
-			//elastic.SetTraceLog(loggerWrapper{}),
+			elastic.SetHttpClient(container.getEsHttpClient()),
+			elastic.SetErrorLog(loggerWrapper{}),
+			elastic.SetInfoLog(loggerWrapper{}), // will print http request
+			//elastic.SetTraceLog(loggerWrapper{}), // will print elastic search json request and response
 			//elastic.SetSniff(false),
 		)
 		if err != nil {
@@ -40,6 +37,18 @@ func (container *Container) GetEsClient() *elastic.Client {
 		}
 	}
 	return container.esClient
+}
+
+func (container *Container) getEsHttpClient() *http.Client {
+	tripperwares := httpware.TripperwareStack(
+		tripperware.Metrics("elastic-search", container.GetHttpRecorder()),
+	)
+
+	return &http.Client{
+		Transport: tripperwares.Decorate(&http.Transport{
+			MaxIdleConnsPerHost: container.Cfg.ElasticMaxIdleConns,
+		}),
+	}
 }
 
 func (container *Container) GetIndexManager() *esRepo.IndexManager {
