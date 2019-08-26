@@ -1,4 +1,4 @@
-![go-skeleton](https://ibb.co/BgD0CP9)
+![go-skeleton](https://i.ibb.co/PGtdDsj/skeleton2.png)
 
 # GO-SKELETON
 
