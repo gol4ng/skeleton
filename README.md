@@ -1,3 +1,5 @@
+![go-skeleton](https://ibb.co/BgD0CP9)
+
 # GO-SKELETON
 
 this is a simple golang app skeleton that proposes an architecture to provide: 
