@@ -1,4 +1,4 @@
-![go-skeleton](https://i.ibb.co/PGtdDsj/skeleton2.png)
+<h1 align="center"><img src="https://i.ibb.co/NZqppQ0/skeleton2.png" alt="gol4ng/skeleton: bulletprouf go project structure" title="Bulletprouf go project structure"></h1>
 
 # GO-SKELETON
 
