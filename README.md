@@ -1,3 +1,5 @@
+<img src="skeleton.png" alt="gol4ng/skeleton: bulletprouf go project structure" title="Bulletprouf go project structure" align="right" width="200px">
+
 # GO-SKELETON
 
 this is a simple golang app skeleton that proposes an architecture to provide: 
