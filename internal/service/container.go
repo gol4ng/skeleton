@@ -7,7 +7,6 @@ import (
 
 	"github.com/gol4ng/skeleton/config"
 	esRepo "github.com/gol4ng/skeleton/internal/repository/elastic"
-	conf "github.com/gol4ng/skeleton/pkg/config"
 	"github.com/gol4ng/skeleton/pkg/my_package/repository"
 )
 
@@ -43,7 +42,7 @@ func (container *Container) Unload() error {
 
 func NewContainer(cfg *config.Base) *Container {
 	println("Run ", Name, "v", Version)
-	println(conf.ToString(cfg))
+	println(cfg.String())
 
 	container := &Container{
 		Cfg: cfg,

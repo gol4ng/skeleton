@@ -35,6 +35,10 @@ func fprint(w io.Writer, iface interface{}) {
 		}
 
 		typeField := value.Type().Field(i)
-		fmt.Fprintf(w, "%s\t\033[0m%v\t\033[1;34m%s\033[0m \033[1;92m`%s`\033[0m\n", typeField.Name, field.Interface(), field.Type().String(), typeField.Tag)
+		val := field.Interface()
+		if v, ok := typeField.Tag.Lookup("print"); ok && v == "-" {
+			val = "*** Hidden value ***"
+		}
+		fmt.Fprintf(w, "%s\t\033[0m%v\t\033[1;34m%s\033[0m \033[1;92m`%s`\033[0m\n", typeField.Name, val, field.Type().String(), typeField.Tag)
 	}
 }
