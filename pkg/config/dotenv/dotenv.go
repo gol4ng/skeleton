@@ -22,8 +22,8 @@ func NewBackend(filenames ...string) backend.Backend {
 
 		key = strings.Replace(strings.ToUpper(key), "-", "_", -1)
 
-		if envMap[key] != "" {
-			return []byte(envMap[key]), nil
+		if v, ok := envMap[key]; ok {
+			return []byte(v), nil
 		}
 
 		return nil, backend.ErrNotFound
