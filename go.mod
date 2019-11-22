@@ -1,5 +1,7 @@
 module github.com/gol4ng/skeleton
 
+go 1.13
+
 require (
 	github.com/fortytw2/leaktest v1.3.0 // indirect
 	github.com/gol4ng/httpware v0.0.0-20190724082439-5999a32c7adb
